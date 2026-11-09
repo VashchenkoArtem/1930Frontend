@@ -1,6 +1,15 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { Product } from "../types/product";
 
+interface RegisterResponse {
+    id: number;
+    email: string;
+}
+
+interface RegisterRequest {
+    email: string;
+    password: string;
+}
 
 export const baseApi = createApi({
     reducerPath: "api",
@@ -10,8 +19,17 @@ export const baseApi = createApi({
     endpoints: (builder) => ({
         getProducts: builder.query<Product[], void>({
             query: () => "/products"
+        }),
+        register: builder.mutation<RegisterResponse, RegisterRequest>({
+            query: (data) => {
+                return {
+                    url: "/auth/register",
+                    method: "POST",
+                    body: data 
+                }
+            }
         })
     })
 })
 
-export const { useGetProductsQuery } = baseApi
+export const { useGetProductsQuery, useRegisterMutation } = baseApi
