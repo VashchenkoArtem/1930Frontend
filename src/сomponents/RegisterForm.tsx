@@ -8,7 +8,7 @@ type RegisterValues = {
 
 export function RegisterForm() {
     const { register, handleSubmit } = useForm<RegisterValues>();
-    const [ registerUser ] = useRegisterMutation()
+    const [ registerUser, { isSuccess } ] = useRegisterMutation()
     async function onSubmit(data: RegisterValues){
         const result = await registerUser(data)
         alert(`Користувач ${result.data?.email} зареєструвався!`)
@@ -28,6 +28,7 @@ export function RegisterForm() {
                 {...register("password")}
             />
             <button>Зареєструватися</button>
+            { isSuccess && <p>Користувач успішно зареєстрований! Тепер ви можете увійти</p> }
         </form>
     )
 }
